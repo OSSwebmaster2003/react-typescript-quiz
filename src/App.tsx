@@ -19,8 +19,6 @@ function App() {
   const [score , setScore] = useState(0)
   const [gameOver , setGameOver] = useState(true)
 
-  console.log(questions);
-  
   const startTrivia = async () => {
     setLoading(true)
     setGameOver(false)
@@ -35,7 +33,24 @@ function App() {
   }
   
 
-  const checkAnswer = (e : React.MouseEvent<HTMLButtonElement>) => {}
+  const checkAnswer = (e : React.MouseEvent<HTMLButtonElement>) => {
+    if(!gameOver){
+      // users answer
+      const answer = e.currentTarget.value
+      // check answer against correct answer
+      const correct = questions[number].correct_answer === answer
+      //add score if answer is correct
+      if(correct) setScore(prev => prev + 1)
+      // say answer in array for user answers
+      const answerObject = {
+        question : questions[number].question,
+        answer,
+        correct,
+        correctAnswer : questions[number].correct_answer
+      }
+      setUserAnswers((prev) => [...prev , answerObject])
+    }
+  }
 
   const nextQuestion = () => {}
   
